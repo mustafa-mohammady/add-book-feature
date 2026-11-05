@@ -68,12 +68,12 @@ export default function App() {
           </select>
         </label>
       </div>
-      <Stats books={books} />
       <BookList
         books={visibleBooks}
         onToggleRead={handleToggleRead}
         onRemove={handleRemove}
       />
+      <Stats books={books} />
     </main>
   );
 }

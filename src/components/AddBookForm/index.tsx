@@ -35,6 +35,7 @@ export default function AddBookForm({ onAdd }: AddBookFormProps) {
           Title
           <input
             type="text"
+            placeholder="e.g. Dune"
             value={draft.title}
             onChange={(event) =>
               setDraft({ ...draft, title: event.target.value })
@@ -45,6 +46,7 @@ export default function AddBookForm({ onAdd }: AddBookFormProps) {
           Author
           <input
             type="text"
+            placeholder="e.g. Frank Herbert"
             value={draft.author}
             onChange={(event) =>
               setDraft({ ...draft, author: event.target.value })
