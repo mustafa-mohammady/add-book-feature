@@ -9,4 +9,6 @@ import { afterEach } from "vitest";
 
 afterEach(() => {
   cleanup();
+  // The app saves books in localStorage; start every test with an empty one.
+  localStorage.clear();
 });
