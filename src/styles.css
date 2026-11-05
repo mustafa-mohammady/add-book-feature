@@ -1,31 +1,196 @@
+/* ---------- Design tokens ---------- */
+
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --text: #1f2024;
+  --muted: #6b6f7a;
+  --border: #dfe2e8;
+  --accent: #ff4a11;
+  --accent-hover: #e63e09;
+  --accent-soft: rgba(255, 74, 17, 0.12);
+  --star: #f5a623;
+  --danger: #c62828;
+  --danger-soft: #fdecea;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+  --shadow-hover: 0 4px 12px rgba(16, 24, 40, 0.1);
+  --radius: 10px;
+  --radius-sm: 6px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15161a;
+    --surface: #1f2126;
+    --text: #ecedf0;
+    --muted: #9a9ea8;
+    --border: #33363e;
+    --accent-soft: rgba(255, 74, 17, 0.2);
+    --danger: #ef6b6b;
+    --danger-soft: rgba(239, 107, 107, 0.12);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 4px 14px rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  padding: 2rem;
-  font-family: system-ui;
-  color: #252629;
+  padding: 2.5rem 1rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
 }
 
 main {
-  max-width: 40rem;
+  max-width: 44rem;
   margin: 0 auto;
 }
 
-.controls {
+h1 {
+  margin: 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Form controls ---------- */
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select {
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+button {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.controls label,
+.add-book label {
   display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---------- Add-book form ---------- */
+
+.add-book {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.add-book h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.controls,
+.add-book .fields {
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.controls label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+.add-book .fields label {
+  flex: 1 1 8rem;
 }
+
+.add-book [role="alert"] {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-radius: var(--radius-sm);
+}
+
+.add-book button[type="submit"] {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.add-book button[type="submit"]:hover {
+  color: #fff;
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* ---------- Search & filter ---------- */
+
+.controls label:first-child {
+  flex: 1 1 14rem;
+}
+
+/* ---------- Stats ---------- */
+
+.stats {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ---------- Book list ---------- */
 
 .book-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -33,27 +198,104 @@ main {
 .book {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: #f3f5f9;
-  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.book:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 .book.read {
-  border-left: 4px solid #ff4a11;
+  border-left-color: var(--accent);
 }
 
 .book h3,
 .book p {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.2rem;
+}
+
+.book h3 {
+  font-size: 1.05rem;
+}
+
+.book.read h3 {
+  color: var(--muted);
+}
+
+.book p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* rating line: stars or "not rated" */
+.book p[aria-label] {
+  margin: 0;
+  color: var(--star);
+  letter-spacing: 0.1em;
+}
+
+.book p[aria-label="Not rated"] {
+  font-size: 0.8rem;
+  font-style: italic;
+  letter-spacing: normal;
+  color: var(--muted);
 }
 
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  align-items: stretch;
+  gap: 0.4rem;
+  flex-shrink: 0;
 }
 
-.stats {
-  opacity: 0.7;
+.actions button:last-child {
+  color: var(--muted);
+  background: transparent;
+  border-color: transparent;
+}
+
+.actions button:last-child:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: transparent;
+}
+
+/* ---------- Empty state ---------- */
+
+.empty-shelf,
+.stats ~ p {
+  margin: 0;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 32rem) {
+  body {
+    padding: 1.5rem 1rem;
+  }
+
+  .book {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
