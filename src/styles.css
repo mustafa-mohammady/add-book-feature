@@ -1,31 +1,262 @@
+/* ---------- Design tokens ---------- */
+
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --text: #1f2024;
+  --muted: #6b6f7a;
+  --border: #dfe2e8;
+  --accent: #ff4a11;
+  --accent-hover: #e63e09;
+  --accent-soft: rgba(255, 74, 17, 0.12);
+  --star: #f5a623;
+  --danger: #c62828;
+  --danger-soft: #fdecea;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+  --shadow-hover: 0 4px 12px rgba(16, 24, 40, 0.1);
+  --radius: 10px;
+  --radius-sm: 6px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15161a;
+    --surface: #1f2126;
+    --text: #ecedf0;
+    --muted: #9a9ea8;
+    --border: #33363e;
+    --accent-soft: rgba(255, 74, 17, 0.2);
+    --danger: #ef6b6b;
+    --danger-soft: rgba(239, 107, 107, 0.12);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 4px 14px rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  padding: 2rem;
-  font-family: system-ui;
-  color: #252629;
+  padding: 2.5rem 1rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
 }
 
 main {
-  max-width: 40rem;
+  max-width: 44rem;
   margin: 0 auto;
 }
 
-.controls {
+h1 {
+  margin: 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Form controls ---------- */
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select {
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+/* custom chevron so the arrow sits 0.75rem from the right edge, like the search icon on the left */
+select {
+  appearance: none;
+  padding-right: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8f99' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 16px;
+  cursor: pointer;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+button {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.controls label,
+.add-book label {
   display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---------- Add-book form ---------- */
+
+/* compact: heading on top, fields and "Add book" share one row, error below */
+.add-book {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.add-book h2 {
+  grid-column: 1 / -1;
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.controls,
+.add-book .fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.controls {
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.controls label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+.add-book .fields {
+  grid-row: 2;
+  grid-column: 1;
 }
+
+.add-book .fields label {
+  flex: 1 1 6.5rem;
+  min-width: 0;
+}
+
+.add-book .fields label:nth-child(-n + 2) {
+  flex: 2 1 8rem;
+}
+
+.add-book input,
+.add-book select {
+  width: 100%;
+}
+
+.add-book [role="alert"] {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  margin: 0.75rem 0 0;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-radius: var(--radius-sm);
+}
+
+.add-book button[type="submit"] {
+  grid-row: 2;
+  grid-column: 2;
+  align-self: end;
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  font-size: 0.95rem;
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.add-book button[type="submit"]:hover {
+  color: #fff;
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+/* ---------- Search & filter ---------- */
+
+.controls label:first-child {
+  flex: 1 1 14rem;
+}
+
+.controls label:last-child {
+  flex: 0 1 13rem;
+}
+
+.controls select {
+  width: 100%;
+}
+
+/* magnifying-glass icon; mid grey reads on both light and dark backgrounds */
+.controls input[type="search"] {
+  padding-left: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%238a8f99' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.75rem center;
+  background-size: 18px 18px;
+}
+
+/* ---------- Stats ---------- */
+
+.stats {
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Book list ---------- */
 
 .book-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -33,27 +264,118 @@ main {
 .book {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: #f3f5f9;
-  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.book:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
 }
 
 .book.read {
-  border-left: 4px solid #ff4a11;
+  border-left-color: var(--accent);
 }
 
 .book h3,
 .book p {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.2rem;
+}
+
+.book h3 {
+  font-size: 1.05rem;
+}
+
+.book.read h3 {
+  color: var(--muted);
+}
+
+.book p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* rating line: stars or "not rated" */
+.book p[aria-label] {
+  margin: 0;
+  color: var(--star);
+  letter-spacing: 0.1em;
+}
+
+.book p[aria-label="Not rated"] {
+  font-size: 0.8rem;
+  font-style: italic;
+  letter-spacing: normal;
+  color: var(--muted);
 }
 
 .actions {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
 }
 
-.stats {
-  opacity: 0.7;
+/* icon-only buttons */
+.actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+}
+
+.actions svg {
+  flex-shrink: 0;
+}
+
+/* both buttons look the same; only the delete hover turns red */
+.actions button:last-child:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+
+/* ---------- Empty state ---------- */
+
+.empty-shelf,
+.controls ~ p:not(.stats) {
+  margin: 0;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 32rem) {
+  body {
+    padding: 1.5rem 1rem;
+  }
+
+  /* not enough width for the button beside the fields: put it below */
+  .add-book {
+    grid-template-columns: 1fr;
+  }
+
+  .add-book button[type="submit"] {
+    grid-row: 3;
+    grid-column: 1;
+    justify-self: start;
+    margin-top: 0.75rem;
+  }
+
+  .add-book [role="alert"] {
+    grid-row: 4;
+  }
 }
